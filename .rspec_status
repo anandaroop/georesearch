@@ -1,6 +1,0 @@
-example_id                | status | run_time        |
-------------------------- | ------ | --------------- |
-./spec/cli_spec.rb[1:1:1] | passed | 0.07662 seconds |
-./spec/cli_spec.rb[1:1:2] | passed | 0.07496 seconds |
-./spec/cli_spec.rb[1:2:1] | passed | 0.07505 seconds |
-./spec/cli_spec.rb[1:2:2] | passed | 0.07464 seconds |

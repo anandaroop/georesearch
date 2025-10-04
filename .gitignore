@@ -1,2 +1,42 @@
+# macOS
 .DS_Store
+
+# RSpec
+.rspec_status
+
+# Bundler
+/.bundle/
+/vendor/bundle
+
+# RubyGems
+*.gem
+/.yardoc
+/_yardoc/
+/doc/
+/pkg/
+/Gemfile.lock
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Coverage
+/coverage/
+
+# Environment & Secrets
 .env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Temp files
+/tmp/
+
+# Project-specific data
+data/input
+data/output
