@@ -2,21 +2,13 @@
 
 This is a command line application to perform research on toponyms and return data in a structured format useful for cartography projects.
 
-## Stack
+## Guidelines
 
 **Language**: Ruby, packaged as a Rubygem
+**Language manager**: Mise-en-place, with Ruby 3.4.5
 **Framework**: dry-cli
 **Code quality**: StandardRB
 **Tests**: RSpec
 **Task runner**: Rakefile
 **LLM**: RubyLLM, RubyLLM::MCP
-
-## Stories
-
-#### User runs help command
-
-```
-As a user
-When I type `georesearch` or `georesearch --help`
-Then I see a help message that describes the program
-```
+**Commits**: Use Conventional Commits formatting
