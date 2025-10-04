@@ -5,6 +5,7 @@ A command-line application to perform research on toponyms and return data in a 
 ## Project Structure
 
 This project follows standard Ruby gem conventions:
+
 - `lib/` - Source code
 - `exe/` - Executable binaries
 - `spec/` - RSpec tests
@@ -14,6 +15,7 @@ This project follows standard Ruby gem conventions:
 ## Development Guidelines
 
 ### Language & Tools
+
 - **Language**: Ruby 3.4.5 (managed via Mise-en-place)
 - **Package**: Rubygem
 - **Framework**: dry-cli
@@ -22,24 +24,18 @@ This project follows standard Ruby gem conventions:
 - **Task Runner**: Rakefile
 
 ### Workflow
+
 - **Commits**: Use Conventional Commits format (feat:, fix:, docs:, etc.)
 - **Testing**: Run `bundle exec rake` to run tests and linter before committing
 - **Stories**: User stories live in `docs/Stories/`, not in this file
 
 ### Available Rake Tasks
+
 - `rake` - Default: runs tests and linter
 - `rake spec` - Run RSpec tests only
 - `rake lint` - Run StandardRB linter
 - `rake fix` - Auto-fix StandardRB issues
 
 ### LLM Integration
-- **Framework**: RubyLLM, RubyLLM::MCP (not yet implemented)
 
-## Current Status
-
-✅ Project scaffolding complete
-✅ CLI with help and version commands
-✅ Testing infrastructure (RSpec)
-✅ Linting infrastructure (StandardRB)
-⏳ Toponym research functionality (not started)
-⏳ LLM integration (not started)
+- **Framework**: RubyLLM, RubyLLM::MCP
