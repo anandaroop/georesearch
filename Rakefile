@@ -5,6 +5,11 @@ require "rspec/core/rake_task"
 
 RSpec::Core::RakeTask.new(:spec)
 
+task :faff do
+  require_relative "lib/georesearch/agents/analyzer"
+  Georesearch::Agents::Analyzer.analyze
+end
+
 desc "Run StandardRB linter"
 task :lint do
   sh "standardrb"
