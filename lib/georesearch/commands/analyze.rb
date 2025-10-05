@@ -2,6 +2,7 @@
 
 require_relative "base"
 require_relative "../agents/analyzer"
+require "tty-spinner"
 
 module Georesearch
   module CLI
@@ -9,13 +10,19 @@ module Georesearch
       class Analyze < Base
         desc "Analyze a file and extract toponyms"
 
-        option :file, type: :string, required: true, desc: "Path to the file to analyze"
+        argument :file, type: :string, required: true, desc: "Path to the file to analyze"
 
-        def call(file: nil, **)
+        def call(file:, **)
           super
+          spinner = TTY::Spinner.new("[:spinner] Analyzing #{file}...", format: :dots)
+          spinner.auto_spin
           file_path = File.expand_path(file)
           analysis = Georesearch::Agents::Analyzer.analyze(file: file_path)
+          spinner.success("Done!")
           puts JSON.pretty_generate(analysis)
+        rescue => e
+          puts e.message
+          spinner.error("Failed!")
         end
       end
     end
