@@ -26,9 +26,8 @@ module Georesearch
           })
           spinner.success("Done!")
           puts JSON.pretty_generate(response["matches"])
-        rescue RubyLLM::MCP::Errors::TransportError => e
+        rescue RubyLLM::MCP::Errors::TransportError
           spinner.error("Failed!")
-
           puts <<~EOS
             Looks like the MCP server is not running. Try:
 

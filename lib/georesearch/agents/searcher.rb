@@ -76,12 +76,12 @@ module Georesearch
         #{SCHEMA.new.to_json}
       INSTRUCTIONS
 
-      def self.search(toponym)
-        searcher = new(toponym: toponym)
+      def self.search(toponym, project_notes: nil)
+        searcher = new(toponym: toponym, project_notes: project_notes)
         searcher.response
       end
 
-      def initialize(toponym: nil)
+      def initialize(toponym: nil, project_notes: nil)
         raise ArgumentError, "A valid toponym must be provided" if toponym.nil? || toponym["name"].to_s.strip.empty?
 
         geo_mcp = RubyLLM::MCP.client(
@@ -100,7 +100,13 @@ module Georesearch
           .with_temperature(0.0)
           .with_tools(*geo_mcp.tools)
 
-        response = chat.ask("Research this toponym and give me only valid JSON, no yapping:\n\n#{JSON.pretty_generate(toponym)}")
+        prompt_parts = []
+        prompt_parts << "Project notes: #{project_notes}" unless project_notes.to_s.strip.empty?
+        prompt_parts << "Toponym to research: #{JSON.pretty_generate(toponym)}"
+        prompt_parts << "Research that toponym and give me only valid JSON, no yapping"
+        prompt = prompt_parts.join("\n\n")
+
+        response = chat.ask(prompt)
         @response = response.content
       end
     end
