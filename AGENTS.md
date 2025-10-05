@@ -7,10 +7,14 @@ A command-line application to perform research on toponyms and return data in a 
 This project follows standard Ruby gem conventions:
 
 - `lib/` - Source code
+- `lib/georesearch/agents` - Specialized LLM agents
+- `lib/georesearch/commands` - CLI subcommands
 - `exe/` - Executable binaries
 - `spec/` - RSpec tests
 - `docs/` - Documentation
 - `docs/Stories/` - User stories and requirements
+
+And `lib/georesearch/commands/faff.rb` is a special subcommand for faffing around, testing, tinkering, etc.
 
 ## Development Guidelines
 

@@ -15,13 +15,14 @@ Gem::Specification.new do |spec|
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = "https://github.com/roop/georesearch"
 
-  spec.files = Dir.glob("{lib,exe}/**/*") + %w[README.md LICENSE.txt]
+  spec.files = Dir.glob("{lib,exe}/**/*") # + %w[README.md LICENSE.txt]
   spec.bindir = "exe"
   spec.executables = ["georesearch"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency "dry-cli", "~> 1.0"
   spec.add_dependency "ruby_llm", "~> 1.0"
+  spec.add_dependency "ruby_llm-schema", "~> 0.2"
 
   spec.add_development_dependency "dotenv", "~> 3.0"
   spec.add_development_dependency "rake", "~> 13.0"

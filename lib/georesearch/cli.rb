@@ -3,6 +3,7 @@
 require "dry/cli"
 require_relative "commands/version"
 require_relative "commands/base"
+require_relative "commands/analyze"
 require_relative "commands/faff"
 
 module Georesearch
@@ -10,8 +11,9 @@ module Georesearch
     module Commands
       extend Dry::CLI::Registry
 
+      register "faff", Faff, hidden: true
       register "version", Version, aliases: ["v", "-v", "--version"]
-      register "faff", Faff
+      register "analyze", Analyze
     end
   end
 end

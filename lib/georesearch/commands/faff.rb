@@ -8,10 +8,8 @@ module Georesearch
       class Faff < Base
         desc "Sandbox for trying things out"
 
-        def call(*)
+        def call(file: nil, **)
           super
-          require_relative "../agents/analyzer"
-          Georesearch::Agents::Analyzer.analyze
         end
       end
     end
