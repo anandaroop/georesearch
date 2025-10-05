@@ -15,3 +15,8 @@
   - reduce costs by up to 90% and latency by up to 85% for long prompts
   - writing to the cache costs _25% more than_ base input token price
   - using cached content costS _only 10% of_ base input token price
+
+## If actually releasing this
+
+- [ ] Make geonames user for MCP server configurable
+- [ ] Remove me-specific messages like the MCP error in lib/georesearch/commands/find.rb
