@@ -40,7 +40,7 @@ module Georesearch
       def initialize(file: nil)
         raise ArgumentError, "A valid file path must be provided" if file.nil? || !File.exist?(file)
 
-        chat = RubyLLM.chat(model: "claude-sonnet-4")
+        chat = RubyLLM.chat(model: RubyLLM.config.default_model)
           .with_instructions(INSTRUCTIONS)
           .with_schema(SCHEMA)
           .with_temperature(0.0)
