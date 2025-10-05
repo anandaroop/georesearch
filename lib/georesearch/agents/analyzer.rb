@@ -10,6 +10,7 @@ module Georesearch
 
       SCHEMA = RubyLLM::Schema.create do
         string :summary, description: "A concise summary of the project, either provided explicitly or inferred from the file content"
+        string :short_summary, description: "An even more concise summary 10 words or less"
         array :toponyms do
           object do
             string :name, description: "The toponym itself"
