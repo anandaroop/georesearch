@@ -2,6 +2,9 @@
 
 require_relative "base"
 require_relative("../researcher")
+require_relative("../presenters/csv")
+require_relative("../presenters/json")
+require_relative("../presenters/geo_json")
 require "tty-spinner"
 require "rainbow"
 require "rainbow/refinement"
@@ -14,8 +17,10 @@ module Georesearch
         desc "Analyze a file for toponyms and locate them"
 
         argument :file, type: :string, required: true, desc: "Path to the file to analyze"
+        option :format, type: :array, default: ["geojson", "csv"], desc: "Output formats"
+        option :preview, type: :boolean, default: true, desc: "Preview GeoJSON output in geojson.io"
 
-        def call(file:, **)
+        def call(file:, format:, preview:)
           super
           researcher = Researcher.new(file: file)
 
@@ -49,7 +54,41 @@ module Georesearch
           )
 
           parent_spinner.success
-          pretty_json(researcher.results)
+
+          basename = File.basename(file, ".*")
+          prefix = "toponyms-#{basename}-#{Time.now.strftime("%Y%m%d-%H%M%S")}"
+
+          format.each do |fmt|
+            case fmt
+            when "raw"
+              pretty_json(researcher.results)
+              filename = "#{prefix}-raw.json"
+              File.write(filename, researcher.results)
+              puts "\nWrote #{filename}\n".cyan.bright
+            when "csv"
+              csv = Georesearch::Presenters::CSV.present(researcher.results)
+              pretty_csv(csv)
+              filename = "#{prefix}.csv"
+              File.write(filename, csv)
+              puts "\nWrote #{filename}\n".cyan.bright
+            when "json"
+              json = Georesearch::Presenters::JSON.present(researcher.results)
+              pretty_json(json)
+              filename = "#{prefix}.json"
+              File.write(filename, JSON.pretty_generate(json))
+              puts "\nWrote #{filename}\n".cyan.bright
+            when "geojson"
+              geojson = Georesearch::Presenters::GeoJSON.present(researcher.results)
+              pretty_json(geojson)
+              filename = "#{prefix}.geojson"
+              File.write(filename, JSON.pretty_generate(geojson))
+              puts "\nWrote #{filename}\n".cyan.bright
+              # preview
+              encoded_geojson = CGI.escape(geojson.to_json)
+              url = "http://geojson.io/#data=data:application/json,#{encoded_geojson}"
+              system("open", url) if preview
+            end
+          end
         rescue => e
           puts e.message
           parent_spinner.error("Failed!")

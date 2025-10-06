@@ -40,3 +40,6 @@
 # Project-specific data
 data/input
 data/output
+*.csv
+*.json
+*.geojson

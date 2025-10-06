@@ -20,6 +20,14 @@ module Georesearch
           io.puts JSON.pretty_generate(data)
           io.close if has_jq
         end
+
+        # Pretty print CSV data using csvlook if available
+        def pretty_csv(csv)
+          has_csvlook = system("which csvlook > /dev/null 2>&1")
+          io = has_csvlook ? IO.popen("csvlook --max-column-width 25", "w") : $stdout
+          io.puts csv
+          io.close if has_csvlook
+        end
       end
     end
   end

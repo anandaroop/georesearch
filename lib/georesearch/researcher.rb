@@ -42,8 +42,8 @@ module Georesearch
 
             result = Georesearch::Agents::Searcher.search(toponym, project_notes: @summary)
             @results << {
-              toponym: toponym,
-              result: result
+              "toponym" => toponym,
+              "result" => result
             }
 
             on_toponym_done&.call(toponym, @toponyms.size, result)
