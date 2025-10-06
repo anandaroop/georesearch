@@ -15,5 +15,13 @@ task :fix do
   sh "standardrb --fix"
 end
 
+desc "Remove all CSV, JSON, and GeoJSON files from project root"
+task :clean do
+  Dir.glob("*.{csv,json,geojson}").each do |file|
+    rm file
+    puts "Removed #{file}"
+  end
+end
+
 desc "Run tests and linter"
 task default: [:spec, :lint]
