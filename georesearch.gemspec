@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "ruby_llm-schema", "~> 0.2"
   spec.add_dependency "ruby_llm-mcp", "~> 0.6"
   spec.add_dependency "tty-spinner", "~> 0.9"
+  spec.add_dependency "rainbow", "~> 3.1"
 
   spec.add_development_dependency "dotenv", "~> 3.0"
   spec.add_development_dependency "rake", "~> 13.0"
