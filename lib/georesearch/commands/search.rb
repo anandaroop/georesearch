@@ -14,7 +14,7 @@ module Georesearch
         option :context, type: :string, desc: "Location context for the toponym, e.g. the state or country that contains it"
         option :note, type: :string, desc: "Any additional explanatory notes"
 
-        def call(name:, category: nil, context: nil, note: nil)
+        def call(name:, category: nil, context: nil, note: nil, **)
           super
           spinner = TTY::Spinner.new("[:spinner] Searching for #{name}...", format: :dots)
           spinner.auto_spin

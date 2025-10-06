@@ -20,7 +20,7 @@ module Georesearch
         option :format, type: :array, default: ["geojson", "csv"], desc: "Output formats"
         option :preview, type: :boolean, default: true, desc: "Preview GeoJSON output in geojson.io"
 
-        def call(file:, format:, preview:)
+        def call(file:, format:, preview:, **)
           super
           research(file: file)
           write(file: file, format: format, preview: preview)
