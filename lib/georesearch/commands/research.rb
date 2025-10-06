@@ -22,20 +22,30 @@ module Georesearch
 
         def call(file:, format:, preview:)
           super
-          researcher = Researcher.new(file: file)
+          research(file: file)
+          write(file: file, format: format, preview: preview)
+        rescue => e
+          puts e.message
+          parent_spinner.error("Failed!")
+        end
+
+        private
+
+        def research(file:)
+          @researcher = Researcher.new(file: file)
 
           analyze_spinner = TTY::Spinner.new("[:spinner] Analyzing", format: :dots)
           analyze_spinner.auto_spin
 
           # prepare the analysis
-          researcher.prepare!
+          @researcher.prepare!
 
-          analyze_spinner.success("(Found #{researcher.toponyms.count} toponyms — #{researcher.short_summary})".green)
+          analyze_spinner.success("(Found #{@researcher.toponyms.count} toponyms — #{@researcher.short_summary})".green)
           parent_spinner = TTY::Spinner::Multi.new("[:spinner] Researching #{file}".bright, format: :dots)
           spinners = {}
 
           # do the research work
-          researcher.work!(
+          @researcher.work!(
             on_toponym_start: ->(toponym, total) {
               spinner = parent_spinner.register("[:spinner] #{toponym["name"]}", format: :dots)
               spinner.auto_spin
@@ -52,33 +62,35 @@ module Georesearch
               spinners[toponym["index"]].success(msg)
             }
           )
-
+          @researcher.results.sort_by! { |r| r["toponym"]["index"] }
           parent_spinner.success
+        end
 
+        def write(file:, format:, preview:)
           basename = File.basename(file, ".*")
           prefix = "toponyms-#{basename}-#{Time.now.strftime("%Y%m%d-%H%M%S")}"
 
           format.each do |fmt|
             case fmt
             when "raw"
-              pretty_json(researcher.results)
+              pretty_json(@researcher.results)
               filename = "#{prefix}-raw.json"
-              File.write(filename, researcher.results)
+              File.write(filename, @researcher.results)
               puts "\nWrote #{filename}\n".cyan.bright
             when "csv"
-              csv = Georesearch::Presenters::CSV.present(researcher.results)
+              csv = Georesearch::Presenters::CSV.present(@researcher.results)
               pretty_csv(csv)
               filename = "#{prefix}.csv"
               File.write(filename, csv)
               puts "\nWrote #{filename}\n".cyan.bright
             when "json"
-              json = Georesearch::Presenters::JSON.present(researcher.results)
+              json = Georesearch::Presenters::JSON.present(@researcher.results)
               pretty_json(json)
               filename = "#{prefix}.json"
               File.write(filename, JSON.pretty_generate(json))
               puts "\nWrote #{filename}\n".cyan.bright
             when "geojson"
-              geojson = Georesearch::Presenters::GeoJSON.present(researcher.results)
+              geojson = Georesearch::Presenters::GeoJSON.present(@researcher.results)
               pretty_json(geojson)
               filename = "#{prefix}.geojson"
               File.write(filename, JSON.pretty_generate(geojson))
@@ -89,9 +101,6 @@ module Georesearch
               system("open", url) if preview
             end
           end
-        rescue => e
-          puts e.message
-          parent_spinner.error("Failed!")
         end
       end
     end
