@@ -19,7 +19,7 @@ module Georesearch
           file_path = File.expand_path(file)
           analysis = Georesearch::Agents::Analyzer.analyze(file: file_path)
           spinner.success("Done!")
-          puts JSON.pretty_generate(analysis)
+          pretty_json(analysis)
         rescue => e
           puts e.message
           spinner.error("Failed!")

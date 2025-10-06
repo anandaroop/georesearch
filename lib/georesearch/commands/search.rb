@@ -25,7 +25,7 @@ module Georesearch
             "note" => note
           })
           spinner.success("Done!")
-          puts JSON.pretty_generate(response["matches"])
+          pretty_json(response["matches"])
         rescue RubyLLM::MCP::Errors::TransportError
           spinner.error("Failed!")
           puts <<~EOS
