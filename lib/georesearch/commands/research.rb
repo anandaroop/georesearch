@@ -26,7 +26,6 @@ module Georesearch
           write(file: file, format: format, preview: preview)
         rescue => e
           puts e.message
-          parent_spinner.error("Failed!")
         end
 
         private
