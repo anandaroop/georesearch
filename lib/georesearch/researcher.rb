@@ -40,7 +40,18 @@ module Georesearch
             toponym = @queue.pop(true)
             on_toponym_start&.call(toponym, @toponyms.size)
 
-            result = Georesearch::Agents::Searcher.search(toponym, project_notes: @summary)
+            result = begin
+              Georesearch::Agents::Searcher.search(toponym, project_notes: @summary)
+            rescue => e
+              {"matches" => [{
+                "name" => toponym["name"],
+                "latitude" => 0.0,
+                "longitude" => 0.0,
+                "feature_code" => "ERR",
+                "assistant_notes" => e.message
+              }]}
+            end
+
             @results << {
               "toponym" => toponym,
               "result" => result
