@@ -32,8 +32,6 @@ module Georesearch
                 "found" => match["name"],
                 "feature_type" => match["feature_type"],
                 "feature_code" => match["feature_code"],
-                "longitude" => match["longitude"],
-                "latitude" => match["latitude"],
                 "aliases" => match["aliases"],
                 "hierarchy" => match["hierarchy"],
                 "confidence" => match["confidence"],
