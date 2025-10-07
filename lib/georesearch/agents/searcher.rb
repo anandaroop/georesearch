@@ -81,6 +81,13 @@ module Georesearch
         searcher.response
       end
 
+      def self.check_connection
+        url = URI(ENV["GEORESEARCH_MCP_SERVER_URL"])
+        Net::HTTP.get_response(url)
+      rescue Errno::ECONNREFUSED
+        raise "Could not connect to MCP server at #{url}"
+      end
+
       def initialize(toponym: nil, project_notes: nil)
         raise ArgumentError, "A valid toponym must be provided" if toponym.nil? || toponym["name"].to_s.strip.empty?
 
@@ -89,7 +96,7 @@ module Georesearch
           transport_type: :streamable,
           request_timeout: 15000, # Optional: timeout in milliseconds (default: 8000)
           config: {
-            url: "http://localhost:3000/mcp",
+            url: ENV["GEORESEARCH_MCP_SERVER_URL"],
             headers: {}
           }
         )

@@ -22,6 +22,7 @@ module Georesearch
 
         def call(file:, format:, preview:, **)
           super
+          Georesearch::Agents::Searcher.check_connection
           research(file: file)
           write(file: file, format: format, preview: preview)
         rescue => e
