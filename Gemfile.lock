@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    georesearch (0.3.2)
+    georesearch (0.4.0)
       csv
       dry-cli (~> 1.0)
       rainbow (~> 3.1)

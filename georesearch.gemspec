@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = "georesearch"
-  spec.version = "0.3.2"
+  spec.version = "0.4.0"
   spec.authors = ["Anandaroop Roy"]
   spec.email = ["anandaroop.roy+github@gmail.com"]
 
