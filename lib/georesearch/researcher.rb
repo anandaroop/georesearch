@@ -43,6 +43,11 @@ module Georesearch
             result = begin
               Georesearch::Agents::Searcher.search(toponym, project_notes: @summary)
             rescue => e
+              puts "Error researching #{toponym["name"]}: #{e.message}"
+              File.open("error.log", "a") do |f|
+                f.puts("#{Time.now} - Error researching #{toponym["name"]}: #{e.message}")
+                f.puts(e.backtrace.join("\n"))
+              end
               {"matches" => [{
                 "name" => toponym["name"],
                 "latitude" => 0.0,
