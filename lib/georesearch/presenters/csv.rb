@@ -21,6 +21,7 @@ module Georesearch
           toponym, result = result.values_at("toponym", "result")
           result["matches"].each do |match|
             row = [
+              toponym["index"],
               toponym["name"],
               match["name"],
               match["feature_type"],
@@ -40,6 +41,7 @@ module Georesearch
 
       def headers
         [
+          "#",
           "searched",
           "found",
           "feature_type",
