@@ -12,16 +12,20 @@ module Georesearch
     attr_accessor :num_workers
     attr_accessor :queue
     attr_accessor :results
+    attr_accessor :usage
 
     def initialize(file:)
       @file = file
       @queue = Queue.new
       @results = []
       @num_workers = (ENV["GEORESEARCH_MAX_WORKERS"] || 4).to_i
+      @usage = []
     end
 
     def prepare!
-      analysis = Georesearch::Agents::Analyzer.analyze(file: @file)
+      analyzer = Georesearch::Agents::Analyzer.new(file: @file)
+      @usage << analyzer.usage
+      analysis = analyzer.response
       @summary = analysis["summary"]
       @short_summary = analysis["short_summary"]
       @toponyms = analysis["toponyms"]
@@ -41,7 +45,9 @@ module Georesearch
             on_toponym_start&.call(toponym, @toponyms.size)
 
             result = begin
-              Georesearch::Agents::Searcher.search(toponym, project_notes: @summary)
+              searcher = Georesearch::Agents::Searcher.new(toponym: toponym, project_notes: @summary)
+              @usage << searcher.usage
+              searcher.response
             rescue => e
               puts "Error researching #{toponym["name"]}: #{e.message}"
               File.open("error.log", "a") do |f|
@@ -62,7 +68,7 @@ module Georesearch
               "result" => result
             }
 
-            on_toponym_done&.call(toponym, @toponyms.size, result)
+            on_toponym_done&.call(toponym, @toponyms.size, result, searcher&.usage)
             sleep(rand(0.5..1.5)) # throttle
           rescue ThreadError # queue empty
             break

@@ -32,6 +32,7 @@ module Georesearch
         private
 
         def research(file:)
+          # puts "\nResearching #{file}".bright
           @researcher = Researcher.new(file: file)
 
           analyze_spinner = TTY::Spinner.new("[:spinner] Analyzing", format: :dots)
@@ -40,8 +41,12 @@ module Georesearch
           # prepare the analysis
           @researcher.prepare!
 
-          analyze_spinner.success("(Found #{@researcher.toponyms.count} toponyms — #{@researcher.short_summary})".green)
-          parent_spinner = TTY::Spinner::Multi.new("[:spinner] Researching #{file}".bright, format: :dots)
+          msg = "(Found #{@researcher.toponyms.count} toponyms — #{@researcher.short_summary})".green
+          usage = @researcher.usage.last
+          msg += [" ↑ ", usage[:input_tokens].to_s.faint, " ↓ ", usage[:output_tokens].to_s.faint].join if usage
+          analyze_spinner.success(msg)
+
+          parent_spinner = TTY::Spinner::Multi.new("[:spinner] Researching".bright, format: :dots)
           spinners = {}
 
           # do the research work
@@ -51,7 +56,7 @@ module Georesearch
               spinner.auto_spin
               spinners[toponym["index"]] = spinner
             },
-            on_toponym_done: ->(toponym, total, result) {
+            on_toponym_done: ->(toponym, total, result, usage) {
               matches = result["matches"]
               msg = if matches.length == 1
                 lng, lat = matches[0].values_at("longitude", "latitude")
@@ -59,6 +64,7 @@ module Georesearch
               else
                 "(#{matches.length} matches)".faint
               end
+              msg += [" ↑ ", usage[:input_tokens].to_s.faint, " ↓ ", usage[:output_tokens].to_s.faint].join if usage
               spinners[toponym["index"]].success(msg)
             }
           )

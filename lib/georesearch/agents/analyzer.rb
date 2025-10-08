@@ -6,7 +6,7 @@ require "ruby_llm/schema"
 module Georesearch
   module Agents
     class Analyzer
-      attr_reader :response
+      attr_reader :response, :usage
 
       SCHEMA = RubyLLM::Schema.create do
         string :summary, description: "A concise summary of the project, either provided explicitly or inferred from the file content"
@@ -48,6 +48,15 @@ module Georesearch
 
         response = chat.ask "Analyze this file", with: file
         @response = response.content
+
+        @usage = {
+          timestamp: Time.now.utc.iso8601,
+          caller: self.class.name,
+          input: file,
+          model_id: response.model_id,
+          input_tokens: response.input_tokens,
+          output_tokens: response.output_tokens
+        }
       end
     end
   end

@@ -20,7 +20,7 @@ end
 module Georesearch
   module Agents
     class Searcher
-      attr_reader :response
+      attr_reader :response, :usage
 
       SCHEMA = RubyLLM::Schema.create do
         array :matches, description: "Search result matches for the supplied toponym. Usually just one, but you may include multiple IF there is ambiguity" do
@@ -115,6 +115,15 @@ module Georesearch
 
         response = chat.ask(prompt)
         @response = response.content
+
+        @usage = {
+          timestamp: Time.now.utc.iso8601,
+          caller: self.class.name,
+          input: toponym["name"],
+          model_id: response.model_id,
+          input_tokens: response.input_tokens,
+          output_tokens: response.output_tokens
+        }
       end
     end
   end
