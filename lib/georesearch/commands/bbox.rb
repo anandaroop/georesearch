@@ -11,12 +11,13 @@ module Georesearch
         desc "Find the bounding box for a place"
 
         argument :place, type: :string, required: true, desc: "The place to find the bounding box for"
+        option :format, type: :string, default: "geojson", values: %w[raw geojson swne ogrne], desc: "The output format"
 
-        def call(place:, **)
+        def call(place:, format:, **)
           super
           spinner = TTY::Spinner.new("[:spinner] Finding bounding box for #{place}...", format: :dots)
           spinner.auto_spin
-          analysis = Georesearch::Agents::BBoxer.search(place: place)
+          analysis = Georesearch::Agents::BBoxer.search(place: place, format: format)
           spinner.success("Done!")
           pretty_json(analysis)
         rescue => e
