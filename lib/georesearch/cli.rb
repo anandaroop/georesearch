@@ -6,6 +6,7 @@ require_relative "commands/base"
 require_relative "commands/analyze"
 require_relative "commands/search"
 require_relative "commands/research"
+require_relative "commands/bbox"
 require_relative "commands/faff"
 
 module Georesearch
@@ -18,6 +19,7 @@ module Georesearch
       register "analyze", Analyze
       register "search", Search, aliases: ["s", "find", "f"]
       register "research", Research, aliases: ["r"]
+      register "bbox", BBox, aliases: ["b"]
     end
   end
 end
