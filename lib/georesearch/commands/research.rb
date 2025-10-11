@@ -17,7 +17,7 @@ module Georesearch
         desc "Analyze a file for toponyms and locate them"
 
         argument :file, type: :string, required: true, desc: "Path to the file to analyze"
-        option :format, type: :array, default: ["geojson", "csv"], desc: "Output formats"
+        option :format, type: :array, default: ["geojson", "csv"], values: %w[raw csv json geojson], desc: "Output formats"
         option :preview, type: :boolean, default: true, desc: "Preview GeoJSON output in geojson.io"
 
         def call(file:, format:, preview:, **)
