@@ -37,14 +37,14 @@ bundle exec rake install # installs on to your system
 Set your API keys as environment variables:
 
 ```bash
-# Supply a key for your chosen model (default: Anthropic Claude Sonnet 4)
+# Supply a key for your chosen model (default: Anthropic Claude Sonnet 4.6)
 export GEORESEARCH_ANTHROPIC_API_KEY="your-openai-key"
 export GEORESEARCH_OPENAI_API_KEY="your-anthropic-key"
 
 # Optional overrides
 
 # Choose a model from https://rubyllm.com/available-models/
-export GEORESEARCH_DEFAULT_MODEL="claude-sonnet-4"
+export GEORESEARCH_DEFAULT_MODEL="claude-sonnet-4-6"
 
 # Specify parallelism
 export GEORESEARCH_MAX_WORKERS=8

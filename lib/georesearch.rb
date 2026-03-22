@@ -11,7 +11,7 @@ module Georesearch
     RubyLLM.configure do |config|
       config.openai_api_key = ENV["GEORESEARCH_OPENAI_API_KEY"] || ENV["OPENAI_API_KEY"]
       config.anthropic_api_key = ENV["GEORESEARCH_ANTHROPIC_API_KEY"] || ENV["ANTHROPIC_API_KEY"]
-      config.default_model = ENV["GEORESEARCH_DEFAULT_MODEL"] || "claude-sonnet-4"
+      config.default_model = ENV["GEORESEARCH_DEFAULT_MODEL"] || "claude-sonnet-4-6"
     end
   end
 end
